@@ -1,0 +1,152 @@
+import 'package:flutter/material.dart';
+import 'main.dart';
+import 'FC_FlashcardSetPage.dart';
+import 'FC_AddCardPage.dart';
+import 'FC_ViewCardSetPages.dart';
+import 'FC_PracticePages.dart';
+
+class SecondPage extends StatelessWidget {
+  const SecondPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flashcard Sets'),
+        backgroundColor: const Color(0xFF6493A5),
+      ),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ViewCard(),
+                    ),
+                  );
+                }, 
+                child: Container(
+                  color: Color(0xFFE6F0F2),
+                child: Card(
+                   margin: EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: const Text('CMSC 128'),
+                        subtitle: const Text('Flashcard set for 1st LE'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _showOptionsDialog(context);
+                              },
+                              child: const Icon(Icons.more_vert),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: const FractionalOffset(0.035, 0.90),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Practice(),
+                  ),
+                );
+                          },
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFBAD2F),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                         child: const Text(
+                    'PRACTICE',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                          
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddCard(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  void _showOptionsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Options'),
+          children: <Widget>[
+            _buildOption(
+              text: 'Edit',
+              icon: Icons.edit, // Pen icon
+              onTap: () {
+                // Add code for the "Edit" option
+                Navigator.pop(context);
+              },
+            ),
+            _buildOption(
+              text: 'Remove',
+              icon: Icons.delete, // Red trash bin icon
+              iconColor: Colors.red, // Set the icon color
+              onTap: () {
+                // Add code for the "Remove" option
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildOption({
+    required String text,
+    required IconData icon,
+    Color? iconColor,
+    required VoidCallback onTap,
+  }) {
+    return SimpleDialogOption(
+      onPressed: onTap,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: iconColor,
+          ),
+          const SizedBox(width: 8), // Adjust the spacing between icon and text
+          Text(text),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'main.dart';
+import 'FC_FlashcardSetPage.dart';
+import 'FC_AddCardPage.dart';
+import 'FC_ViewCardSetPages.dart';
+import 'FC_PracticePages.dart';
+
+class AddCard extends StatelessWidget {
+  final answerController = TextEditingController();
+  final questionController = TextEditingController();
+
+  AddCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigo[300],
+        actions: [
+          SizedBox(
+            width: 80,
+            child: IconButton(
+              icon: const Icon(
+                Icons.check_circle,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SecondPage(),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Create FlashCard',
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Card(
+                color: Colors.grey[350],
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 25.0),
+                          child: TextField(
+                            controller: questionController,
+                            maxLines: null,
+                            decoration: const InputDecoration(
+                              labelText: ('Question / Topic'),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TextField(
+                            controller: answerController,
+                            maxLines: null,
+                            decoration: const InputDecoration(
+                              labelText: 'Answer / Description',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Builder(
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Add flashcards in a list or backend
+                                  questionController.clear();
+                                  answerController.clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Flashcard Added"),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text('Add Card',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      )),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

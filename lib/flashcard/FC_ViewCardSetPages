@@ -1,0 +1,177 @@
+import 'package:flutter/material.dart';
+import 'main.dart';
+import 'FC_FlashcardSetPage.dart';
+import 'FC_AddCardPage.dart';
+import 'FC_ViewCardSetPages.dart';
+import 'FC_PracticePages.dart';
+
+class ViewCard extends StatefulWidget {
+  const ViewCard({super.key});
+
+  @override
+  _ViewCardState createState() => _ViewCardState();
+}
+
+class _ViewCardState extends State<ViewCard> {
+  bool isHeartFilled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF6493A5),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                // Your existing card content
+                Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: const Text('Lorem ipsum'),
+                        subtitle: const Text(
+                            'Lorem ipsum dolor sit amet consectetur adipisicing elit.'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isHeartFilled = !isHeartFilled;
+                                });
+                              },
+                              icon: Icon(
+                                isHeartFilled
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color:
+                                    isHeartFilled ? Colors.red : Colors.black,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _showOptionsDialog(context);
+                              },
+                              child: const Icon(Icons.more_vert),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddCard(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(100, 147, 165, 100),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.add),
+                      Text('Add Card'),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Practice navigation here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Practice(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(100, 147, 165, 100),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                  child: Row(
+                    children: [
+                      Text('Practice'),
+                      Icon(Icons.arrow_forward),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showOptionsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Options'),
+          children: <Widget>[
+            _buildOption(
+              text: 'Edit',
+              icon: Icons.edit, // Pen icon
+              onTap: () {
+                // Add code for the "Edit" option
+                Navigator.pop(context);
+              },
+            ),
+            _buildOption(
+              text: 'Remove',
+              icon: Icons.delete, // Red trash bin icon
+              iconColor: Colors.red, // Set the icon color
+              onTap: () {
+                // Add code for the "Remove" option
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+Widget _buildOption({
+  required String text,
+  required IconData icon,
+  Color? iconColor,
+  required VoidCallback onTap,
+}) {
+  return SimpleDialogOption(
+    onPressed: onTap,
+    child: Row(
+      children: [
+        Icon(
+          icon,
+          color: iconColor,
+        ),
+        const SizedBox(width: 8), // Adjust the spacing between icon and text
+        Text(text),
+      ],
+    ),
+  );
+}
